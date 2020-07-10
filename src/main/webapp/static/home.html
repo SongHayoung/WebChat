@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Ticker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.2/stomp.min.js"></script>
+    <script>
+        var displayCallback = function displayRooms(rooms) {
+            $('#rooms').empty();
+            for (var i in rooms) {
+                var room = rooms[i];
+                $('#rooms').append(
+                    $('<tr>').append(
+                        $('<td>').html(room.roomId),
+                        $('<td>').html(room.roomName),
+                    )
+                );
+            }
+        }
+
+        $(document).ready(function () {
+            $(document).on('click', '.addRoomButton', function(){
+                var roomName = JSON.stringify({
+                    'roomName': $('.addRooms .roomName').val()
+                });
+                console.log($('.addRooms .roomName').val());
+
+                $.ajax({
+                    type : 'post',
+                    url : '/rooms',
+                    contentType: "application/json",
+                    data : roomName,
+                    dataType : 'json',
+                    error: function(xhr, status, error){
+                        alert(error);
+                    },
+                });
+            });
+
+            $(document).on('click', '.getRoomsButton', function(){
+                var url = '/rooms/' + $('.getRooms .roomName').val();
+                console.log(url);
+                $.ajax({
+                    type : 'get',
+                    url : url,
+                    dataType : 'json',
+                    error: function(xhr, status, error){
+                        alert(error);
+                    },
+                    success: displayCallback,
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<h1><b>채팅 메인</b></h1>
+<p class="addRooms">
+    추가할 방 이름: <input class="roomName"/><br/>
+    <button class="addRoomButton">방 추가하기</button>
+</p>
+
+<p class="getRooms">
+    검색할 방 이름: <input class="roomName" /><br/>
+    <button class="getRoomsButton">방 검색</button>
+</p>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>방 번호</th>
+        <th>방 이름</th>
+    </tr>
+    </thead>
+    <tbody id="rooms"></tbody>
+</table>
+
+</body>
+</html>
