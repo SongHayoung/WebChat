@@ -15,6 +15,7 @@
                     $('<tr>').append(
                         $('<td>').html(room.roomId),
                         $('<td>').html(room.roomName),
+                        $('<a>').attr('href', 'chatroom/' + room.roomId).text("입장"),
                     )
                 );
             }

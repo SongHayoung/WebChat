@@ -22,7 +22,7 @@ public class Receiver {
     public void receive(Message message) throws Exception {
         logger.info("message='{}'",message);
         HashMap<String, String> msg = new HashMap<>();
-        msg.put("timestamp", message.getDateFormatted());
+        msg.put("dateFromatted", message.getDateFormatted());
         msg.put("content", message.getContent());
         msg.put("sender", message.getSender());
 

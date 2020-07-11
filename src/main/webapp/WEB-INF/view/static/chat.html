@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Ticker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.2/stomp.min.js"></script>
+    <script>
+        var stomp = Stomp.over(new SockJS("/ws"));
+        var topic = getUrlTopic();
+        function getUrlTopic() {
+            var urlArray = window.location.href.split('/');
+            return urlArray[urlArray.length - 1];
+        }
+        function displayMessage(frame) {
+            var message = JSON.parse(frame.body);
+
+            $('#message').append(
+                $('<tr>').append(
+                    $('<td>').html(message.sender),
+                    $('<td>').html(message.dateFormatted),
+                    $('<td>').html(message.content)
+                )
+            );
+        }
+
+        var connectCallback = function () {
+            stomp.subscribe('/topic/' + topic, displayMessage);
+        };
+
+        var errorCallback = function (error) {
+            alert(error.headers.message);
+        };
+
+        stomp.connect("guest", "guest", connectCallback, errorCallback);
+
+        $(document).ready(function () {
+            $('.sendMessage').click(function (e) {
+                e.preventDefault();
+
+                var jsonstr = JSON.stringify({
+                    'sender': $('.send .sender').val(),
+                    'content': $('.send .content').val(),
+                    'chatRoomId': topic,
+                    'dateFormatted': new Date()
+                });
+
+                stomp.send("/app/chat", {}, jsonstr);
+
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+<h1><b>채팅방</b></h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>발신자</th>
+        <th>시간</th>
+        <th>내용</th>
+    </tr>
+    </thead>
+    <tbody id="message"></tbody>
+</table>
+<p class="send">
+    Sender: <input class="sender"/><br/>
+    Content: <input class="content"/><br/>
+    <button class="sendMessage">전송</button>
+</p>
+
+</body>
+</html>

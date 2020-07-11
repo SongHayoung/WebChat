@@ -9,12 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 
-@RestController
+@Controller
 public class ChattingController {
     @Autowired ChatRoomManager chatRoomManager;
     @Autowired Sender sender;
@@ -24,6 +25,7 @@ public class ChattingController {
     private static final String TOPIC = "send";
 
     @PostMapping("/rooms")
+    @ResponseBody
     public String addChatRoom(@RequestBody HashMap<String, String> map) {
         chatRoomManager.addChatRoom(map.get("roomName"));
         return "Success";
@@ -36,8 +38,13 @@ public class ChattingController {
     }
 
     @GetMapping("/rooms/{roomName}")
+    @ResponseBody
     public List<ChatRoom> provideChatRoomList(@PathVariable("roomName") String roomName) {
-        System.out.println(roomName);
         return chatRoomManager.getChatRooms(roomName);
+    }
+
+    @GetMapping("/join/{roomId}")
+    public String joinChatRoom(@PathVariable("roomId") String roomId) {
+        return "static/chat.html";
     }
 }
