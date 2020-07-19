@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface ChatRoomDao {
     void addChatRoom(ChatRoom chatRoom);
-    boolean isDuplicatedRoomId(String roomId);
-    void deleteChatRoom(String roomId);
+    void deleteChatRoom(ChatRoom chatRoom);
     List<ChatRoom> getChatRooms(String roomName);
-    ChatRoom getChatRoom(String roomId);
 }

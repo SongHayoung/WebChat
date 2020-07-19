@@ -25,8 +25,8 @@ public class ChatRoomDaoJdbc implements ChatRoomDao{
         return exists == DUPLICATE_KEY;
     }
 
-    public void deleteChatRoom(String roomId) {
-        sqlSession.delete("deleteChatRoom", roomId);
+    public void deleteChatRoom(ChatRoom chatRoom) {
+        sqlSession.delete("deleteChatRoom", chatRoom.getRoomId());
     }
 
     public List<ChatRoom> getChatRooms(String roomName) {

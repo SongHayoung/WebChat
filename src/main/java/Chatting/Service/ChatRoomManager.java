@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ChatRoomManager {
     void addChatRoom(String roomName);
-    void deleteChatRoom(String roomId);
+    void deleteChatRoom(ChatRoom chatRoom);
     List<ChatRoom> getChatRooms(String roomName);
 }
