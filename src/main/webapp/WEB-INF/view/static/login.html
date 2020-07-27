@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebChat Login</title>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.login', function(){
+                var user = JSON.stringify({
+                    'id': $('.user .id').val(),
+                    'password': $('.user .password').val()
+                });
+                $.ajax({
+                    type : 'post',
+                    url : '/login',
+                    contentType: "application/json",
+                    dataType : 'text',
+                    data : user,
+                    error: function(xhr, status, error){
+                        alert(error);
+                    },
+                    success: function(response) {
+                        var data = JSON.parse(response);
+                        localStorage.setItem('jwtToken', data.jwtToken);
+                        window.location.href = data.url;
+                    }
+                });
+            });
+
+            $(document).on('click', '.register', function(){
+                var user = JSON.stringify({
+                    'id': $('.user .id').val(),
+                    'password': $('.user .password').val()
+                });
+                $.ajax({
+                    type : 'post',
+                    url : '/register',
+                    contentType: "application/json",
+                    dataType : 'text',
+                    data : user,
+                    error: function(xhr, status, error){
+                        alert(error);
+                    },
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<h1><b>로그인</b></h1>
+<p class="user">
+    ID: <input class="id"/><br/>
+    PASSWORD: <input class="password"/><br/>
+    <button class="register">회원가입</button>
+    <button class="login">로그인</button>
+</p>
+</body>
+</html>

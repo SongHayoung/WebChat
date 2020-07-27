@@ -18,4 +18,9 @@ public class Message {
     private String sender;
     private String dateFormatted;
     private String chatRoomId;
+    private MessageType messageType;
+
+    public enum MessageType {
+        JOIN, QUIT, MESSAGE
+    }
 }

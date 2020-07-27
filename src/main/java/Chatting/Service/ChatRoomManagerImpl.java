@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -29,5 +30,23 @@ public class ChatRoomManagerImpl implements ChatRoomManager {
 
     public List<ChatRoom> getChatRooms(String roomName) {
         return chatRoomDao.getChatRooms(roomName);
+    }
+
+    public void addUser(String roomID, String userName) {
+        chatRoomDao.increaseUserCount(roomID);
+        chatRoomDao.setUser(roomID, userName);
+    }
+
+    public void deleteUser(String roomID, String userName) {
+        chatRoomDao.decreaseUserCount(roomID);
+        chatRoomDao.deleteUser(roomID, userName);
+    }
+
+    public Set<String> getUsers(String roomID) {
+        return chatRoomDao.getUsers(roomID);
+    }
+
+    public int getUserCount(String roomID) {
+        return chatRoomDao.getUserCount(roomID);
     }
 }

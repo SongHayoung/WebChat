@@ -24,7 +24,7 @@ public class ContextMyBatis {
         sqlSessionFactoryBean.setDataSource((DataSource) applicationContext.getBean("dataSource"));
         sqlSessionFactoryBean.setConfigLocation(new ClassPathResource(CLASS_PATH + "config/mybatis-config.xml"));
         sqlSessionFactoryBean.setMapperLocations(new ClassPathResource[]{
-                new ClassPathResource(CLASS_PATH + "mapper/chatRoom-mapper.xml")
+                new ClassPathResource(CLASS_PATH + "mapper/user-mapper.xml")
         });
 
         return sqlSessionFactoryBean.getObject();

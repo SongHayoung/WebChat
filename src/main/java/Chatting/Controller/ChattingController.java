@@ -19,7 +19,6 @@ import java.util.List;
 public class ChattingController {
     @Autowired ChatRoomManager chatRoomManager;
     @Autowired Sender sender;
-    @Autowired Receiver receiver;
     Logger logger = LoggerFactory.getLogger(ChattingController.class);
 
     private static final String TOPIC = "send";
@@ -41,6 +40,11 @@ public class ChattingController {
     @ResponseBody
     public List<ChatRoom> provideChatRoomList(@PathVariable("roomName") String roomName) {
         return chatRoomManager.getChatRooms(roomName);
+    }
+
+    @GetMapping("/home")
+    public String chatHome() {
+        return "static/home.html";
     }
 
     @GetMapping("/join/{roomId}")

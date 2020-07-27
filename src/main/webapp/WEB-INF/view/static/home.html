@@ -15,7 +15,7 @@
                     $('<tr>').append(
                         $('<td>').html(room.roomId),
                         $('<td>').html(room.roomName),
-                        $('<a>').attr('href', 'chatroom/' + room.roomId).text("입장"),
+                        $('<a>').attr('href', 'join/' + room.roomId).text("입장"),
                     )
                 );
             }
@@ -34,6 +34,9 @@
                     contentType: "application/json",
                     data : roomName,
                     dataType : 'json',
+                    beforeSend : function(xhr) {
+                        xhr.setRequestHeader("jwtToken",localStorage.getItem("jwtToken"));
+                    },
                     error: function(xhr, status, error){
                         alert(error);
                     },

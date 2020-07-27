@@ -6,5 +6,6 @@
 <configuration>
     <typeAliases>
         <typeAlias alias="ChatRoom" type="Chatting.VO.ChatRoom" />
+        <typeAlias alias="User" type="Chatting.VO.User" />
     </typeAliases>
 </configuration>

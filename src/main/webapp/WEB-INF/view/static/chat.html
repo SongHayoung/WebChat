@@ -26,14 +26,15 @@
         }
 
         var connectCallback = function () {
-            stomp.subscribe('/topic/' + topic, displayMessage);
+            stomp.subscribe('/topic/' + topic, displayMessage, {"simpUser": "user1"});
         };
 
         var errorCallback = function (error) {
             alert(error.headers.message);
         };
 
-        stomp.connect("guest", "guest", connectCallback, errorCallback);
+        stomp.connect({"jwtToken": localStorage.getItem("jwtToken"),
+                        "simpUser": "user1"}, connectCallback, errorCallback);
 
         $(document).ready(function () {
             $('.sendMessage').click(function (e) {
