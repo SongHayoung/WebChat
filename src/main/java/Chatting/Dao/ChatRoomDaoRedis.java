@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Repository
 public class ChatRoomDaoRedis implements ChatRoomDao{
@@ -19,20 +22,24 @@ public class ChatRoomDaoRedis implements ChatRoomDao{
     private ValueOperations<String, String> valueOperations;
     @Resource(name = "redisTemplate")
     private SetOperations<String, String> setOperations;
+    @Resource(name = "redisTemplate")
+    private SetOperations<String, String> setChatOperations;
     static private final String CHATROOM = "CHATROOM:";
     static private final String USER_COUNT = "USERCOUNT:";
     static private final String USER_LIST = "USERLIST:";
 
     public void addChatRoom(ChatRoom chatRoom) {
-        opsHashChatRoom.put(CHATROOM + chatRoom.getRoomName(), chatRoom.getRoomId(), chatRoom);
+        setChatOperations.add(CHATROOM + chatRoom.getRoomName(), chatRoom.getRoomId());
     }
 
     public void deleteChatRoom(ChatRoom chatRoom) {
-        opsHashChatRoom.delete(CHATROOM + chatRoom.getRoomName(), chatRoom.getRoomId());
+        setChatOperations.remove(CHATROOM + chatRoom.getRoomName(), chatRoom.getRoomId());
     }
 
     public List<ChatRoom> getChatRooms(String roomName) {
-        return new ArrayList<>(opsHashChatRoom.entries(CHATROOM + roomName).values());
+        return setChatOperations.members(CHATROOM + roomName).stream()
+                .map(roomId -> new ChatRoom(roomName, roomId))
+                .collect(Collectors.toList());
     }
 
     public Set<String> getUsers(String roomID) {

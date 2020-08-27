@@ -21,7 +21,7 @@ public class ChatRoomManagerImpl implements ChatRoomManager {
     ChatRoomDao chatRoomDao;
 
     public void addChatRoom(String roomName) {
-        chatRoomDao.addChatRoom(ChatRoom.create(roomName));
+        chatRoomDao.addChatRoom(new ChatRoom(roomName));
     }
 
     public void deleteChatRoom(ChatRoom chatRoom) {

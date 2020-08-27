@@ -22,8 +22,12 @@
                     },
                     success: function(response) {
                         var data = JSON.parse(response);
+                        localStorage.setItem('id', $('.user .id').val());
                         localStorage.setItem('jwtToken', data.jwtToken);
                         window.location.href = data.url;
+                    },
+                    error: function(xhr, status, error){
+                        alert("Invalid Id Or Password");
                     }
                 });
             });

@@ -34,12 +34,13 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public LoginResult login(@RequestBody User user) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return LoginResult.builder()
-                .jwtToken(jwtTokenProvider.generateToken(user.getId()))
+    public ResponseEntity<LoginResult> login(@RequestBody User user) {
+        if(userService.login(user))
+            return new ResponseEntity<>(LoginResult.builder()
+                .jwtToken(jwtTokenProvider.generateToken(user.getId(), user.getRole()))
                 .result(Result.SUCCESS)
                 .url("/home")
-                .build();
+                .build(), HttpStatus.OK);
+        return new ResponseEntity<>(LoginResult.builder().result(Result.FAIL).build(),HttpStatus.BAD_REQUEST);
     }
 }

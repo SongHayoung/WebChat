@@ -3,7 +3,6 @@ package Chatting.Controller;
 import Chatting.Service.ChatRoomManager;
 import Chatting.VO.ChatRoom;
 import Chatting.VO.Message;
-import Kafka.Receiver;
 import Kafka.Sender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

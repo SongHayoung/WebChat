@@ -12,6 +12,7 @@ public class UserServiceImpl implements UserService{
 
     public boolean login(User user) {
         User targetUser = userDao.getUser(user.getId());
+        user.setRole(targetUser.getRole());
         return targetUser.getPassword().equals(user.getPassword());
     }
 

@@ -9,6 +9,7 @@
     <script>
         var stomp = Stomp.over(new SockJS("/ws"));
         var topic = getUrlTopic();
+        var id = localStorage.getItem("id");
         function getUrlTopic() {
             var urlArray = window.location.href.split('/');
             return urlArray[urlArray.length - 1];
@@ -26,30 +27,37 @@
         }
 
         var connectCallback = function () {
-            stomp.subscribe('/topic/' + topic, displayMessage, {"simpUser": "user1"});
+            stomp.subscribe('/topic/' + topic, displayMessage, {"simpUser": id, "topic": topic});
         };
 
         var errorCallback = function (error) {
             alert(error.headers.message);
         };
 
-        stomp.connect({"jwtToken": localStorage.getItem("jwtToken"),
-                        "simpUser": "user1"}, connectCallback, errorCallback);
+        stomp.connect({"jwtToken": localStorage.getItem("jwtToken")}, connectCallback, errorCallback);
+
+        var disconnectCallback = function () {
+            history.back();
+        }
 
         $(document).ready(function () {
             $('.sendMessage').click(function (e) {
                 e.preventDefault();
 
                 var jsonstr = JSON.stringify({
-                    'sender': $('.send .sender').val(),
+                    'sender': localStorage.getItem("id"),
                     'content': $('.send .content').val(),
                     'chatRoomId': topic,
-                    'dateFormatted': new Date()
+                    'dateFormatted': new Date(),
+                    'messageType': 'MESSAGE'
                 });
 
                 stomp.send("/app/chat", {}, jsonstr);
 
                 return false;
+            });
+            $('.quit').click(function (e) {
+                stomp.disconnect(disconnectCallback(),{"simpUser": id, "topic": topic});
             });
         });
     </script>
@@ -67,9 +75,11 @@
     <tbody id="message"></tbody>
 </table>
 <p class="send">
-    Sender: <input class="sender"/><br/>
     Content: <input class="content"/><br/>
     <button class="sendMessage">전송</button>
+</p>
+<p class="quit">
+    <button class="quit">나가기</button>
 </p>
 
 </body>

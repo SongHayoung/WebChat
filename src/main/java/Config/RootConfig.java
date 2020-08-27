@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({ContextDatabase.class, ContextKafka.class, ContextMyBatis.class, ContextRedis.class})
+@Import({ContextDatabase.class, ContextKafka.class, ContextMyBatis.class, ContextRedis.class, WebSecurityConfig.class})
 @ComponentScan(basePackages = {"Chatting.*"})
 public class RootConfig {
 

@@ -15,10 +15,8 @@ import org.springframework.stereotype.Component;
 public class StompHandler implements ChannelInterceptor {
     @Autowired
     private ChatRoomManager chatRoomManager;
-
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-
     @Autowired
     Sender sender;
 
@@ -31,16 +29,15 @@ public class StompHandler implements ChannelInterceptor {
         if(accessor.getCommand() == StompCommand.CONNECT) {
             jwtTokenProvider.validateToken(accessor.getFirstNativeHeader("jwtToken"));
         } else if(accessor.getCommand() == StompCommand.SUBSCRIBE) {
-            System.out.println("full message : " + message);
-            String userName = (String) accessor.getFirstNativeHeader("simpUser");
-            String roomID = (String) message.getHeaders().get("simpDestination");
+            String userName = accessor.getFirstNativeHeader("simpUser");
+            String roomID = accessor.getFirstNativeHeader("topic");
             chatRoomManager.addUser(roomID, userName);
-            sender.send(TOPIC, Chatting.VO.Message.builder().chatRoomId(roomID.split("/")[2]).content(userName + "입장").sender("ADMIN").build());
+            sender.send(TOPIC, Chatting.VO.Message.builder().messageType(Chatting.VO.Message.MessageType.JOIN).chatRoomId(roomID).content(userName + "님이 입장하셨습니다.").sender("ADMIN").build());
         } else if(accessor.getCommand() == StompCommand.DISCONNECT) {
-            String userName = (String) accessor.getFirstNativeHeader("simpUser");
-            String roomID = (String) message.getHeaders().get("simpDestination");
+            String userName = accessor.getFirstNativeHeader("simpUser");
+            String roomID = accessor.getFirstNativeHeader("topic");
             chatRoomManager.deleteUser(roomID, userName);
-            sender.send(TOPIC, Chatting.VO.Message.builder().chatRoomId(roomID.split("/")[2]).content(userName + "퇴장").sender("ADMIN").build());
+            sender.send(TOPIC, Chatting.VO.Message.builder().messageType(Chatting.VO.Message.MessageType.QUIT).chatRoomId(roomID).content(userName + "님이 퇴장하셨습니다.").sender("ADMIN").build());
         }
         return message;
     }
