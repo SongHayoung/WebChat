@@ -1,6 +1,6 @@
 package Kafka;
 
-import Chatting.VO.Message;
+import Chatting.Entity.Message;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

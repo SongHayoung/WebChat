@@ -1,6 +1,6 @@
 package Chatting.Dao;
 
-import Chatting.VO.User;
+import Chatting.Entity.User;
 
 public interface UserDao {
     void addUser(User user);

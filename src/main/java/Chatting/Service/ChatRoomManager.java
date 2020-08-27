@@ -1,6 +1,6 @@
 package Chatting.Service;
 
-import Chatting.VO.ChatRoom;
+import Chatting.Entity.ChatRoom;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

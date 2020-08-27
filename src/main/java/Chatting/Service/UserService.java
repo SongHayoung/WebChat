@@ -1,6 +1,6 @@
 package Chatting.Service;
 
-import Chatting.VO.User;
+import Chatting.Entity.User;
 
 public interface UserService {
     boolean login(User user);

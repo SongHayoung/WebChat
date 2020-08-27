@@ -1,6 +1,5 @@
 package Config.ThirdParty;
 
-import Chatting.VO.ChatRoom;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

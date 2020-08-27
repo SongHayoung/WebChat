@@ -1,4 +1,4 @@
-package Chatting.VO;
+package Chatting.Entity;
 
 import lombok.*;
 

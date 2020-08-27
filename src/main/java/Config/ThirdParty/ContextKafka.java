@@ -1,6 +1,6 @@
 package Config.ThirdParty;
 
-import Chatting.VO.Message;
+import Chatting.Entity.Message;
 import com.google.common.collect.ImmutableMap;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.IntegerSerializer;

@@ -1,4 +1,4 @@
-package Chatting.VO;
+package Chatting.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,18 +8,26 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "Users")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
+    @Id
     String id;
+
+    @Column(nullable = false, length = 20)
     String password;
+
+    @Column(nullable = false, length = 20)
     String role;
 
     @Override

@@ -7,13 +7,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:/properties/dataSource.properties")
-@Import(ContextMyBatis.class)
+@Import({ContextMyBatis.class, ContextHibernate.class})
 public class ContextDatabase {
     @Value("${datasource.driverClass}")String driver;
     @Value("${datasource.username}") String user;
@@ -56,11 +58,11 @@ public class ContextDatabase {
 
         return source;
     }
-
+/*
     @Bean
     public PlatformTransactionManager transactionManager() {
         DataSourceTransactionManager tm = new DataSourceTransactionManager();
         tm.setDataSource(dataSource());
         return tm;
-    }
+    }*/
 }

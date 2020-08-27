@@ -1,6 +1,6 @@
 package Chatting.Dao;
 
-import Chatting.VO.ChatRoom;
+import Chatting.Entity.ChatRoom;
 
 import java.util.List;
 import java.util.Set;

@@ -1,16 +1,13 @@
 package Chatting.Service;
 
 import Chatting.Dao.ChatRoomDao;
-import Chatting.VO.ChatRoom;
+import Chatting.Entity.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 @RequiredArgsConstructor

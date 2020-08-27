@@ -1,12 +1,9 @@
-package Chatting.VO;
+package Chatting.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 @Data
 @Builder

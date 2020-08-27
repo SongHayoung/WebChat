@@ -1,6 +1,6 @@
 package Chatting.Dao;
 
-import Chatting.VO.User;
+import Chatting.Entity.User;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
