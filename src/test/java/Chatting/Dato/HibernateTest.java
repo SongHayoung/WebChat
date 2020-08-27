@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -50,9 +51,24 @@ public class HibernateTest {
     @Test
     public void getUser() {
         userDaoHibernate.save(user.get(0));
+        userDaoHibernate.save(user.get(1));
+        Optional<User> target = userDaoHibernate.findById(user.get(0).getId());
+        assertThat(target.get(), is(user.get(0)));
+    }
+
+    @Test
+    public void getNotExsistUser() {
+        Optional<User> target = userDaoHibernate.findById("NOT EXISTS");
+        assertThat(target.isPresent(), is(false));
+    }
+
+    @Test
+    public void sqlInjection() {
         userDaoHibernate.save(user.get(0));
-        User target = userDaoHibernate.findById(user.get(0).getId());
-        assertThat(target, is(user.get(0)));
+        userDaoHibernate.save(user.get(1));
+        Optional<User> injection = userDaoHibernate.findById("; DELETE * FROM USERS;");
+        Optional<User> target = userDaoHibernate.findById(user.get(0).getId());
+        assertThat(target.get(), is(user.get(0)));
     }
 
 }

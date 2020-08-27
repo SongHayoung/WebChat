@@ -37,9 +37,6 @@
                     beforeSend : function(xhr) {
                         xhr.setRequestHeader("jwtToken",localStorage.getItem("jwtToken"));
                     },
-                    error: function(xhr, status, error){
-                        alert(error);
-                    },
                 });
             });
 

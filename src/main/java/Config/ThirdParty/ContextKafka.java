@@ -60,5 +60,4 @@ public class ContextKafka {
                 .put("group.id", "test-consumer-group")
                 .build();
     }
-
 }

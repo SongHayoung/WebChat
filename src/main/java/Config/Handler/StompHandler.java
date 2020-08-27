@@ -32,12 +32,16 @@ public class StompHandler implements ChannelInterceptor {
             String userName = accessor.getFirstNativeHeader("simpUser");
             String roomID = accessor.getFirstNativeHeader("topic");
             chatRoomManager.addUser(roomID, userName);
-            sender.send(TOPIC, Chatting.Entity.Message.builder().messageType(Chatting.Entity.Message.MessageType.JOIN).chatRoomId(roomID).content(userName + "님이 입장하셨습니다.").sender("ADMIN").build());
+            sender.send(TOPIC, Chatting.Entity.Message.builder()
+                    .messageType(Chatting.Entity.Message.MessageType.JOIN)
+                    .chatRoomId(roomID).content(userName + "님이 입장하셨습니다.").sender("ADMIN").build());
         } else if(accessor.getCommand() == StompCommand.DISCONNECT) {
             String userName = accessor.getFirstNativeHeader("simpUser");
             String roomID = accessor.getFirstNativeHeader("topic");
             chatRoomManager.deleteUser(roomID, userName);
-            sender.send(TOPIC, Chatting.Entity.Message.builder().messageType(Chatting.Entity.Message.MessageType.QUIT).chatRoomId(roomID).content(userName + "님이 퇴장하셨습니다.").sender("ADMIN").build());
+            sender.send(TOPIC, Chatting.Entity.Message.builder()
+                    .messageType(Chatting.Entity.Message.MessageType.QUIT)
+                    .chatRoomId(roomID).content(userName + "님이 퇴장하셨습니다.").sender("ADMIN").build());
         }
         return message;
     }
