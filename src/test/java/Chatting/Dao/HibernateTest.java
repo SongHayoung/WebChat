@@ -1,7 +1,5 @@
-package Chatting.Dato;
+package Chatting.Dao;
 
-import Chatting.Dao.UserDaoHibernate;
-import Chatting.Service.UserService;
 import Chatting.Entity.User;
 import Config.RootConfig;
 import Config.StompWebSocketConfig;

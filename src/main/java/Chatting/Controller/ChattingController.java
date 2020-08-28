@@ -30,8 +30,9 @@ public class ChattingController {
     }
 
     @MessageMapping("/chat")
-    public void sendMessage(Message message) throws Exception {
+    public void sendMessage(Message message) {
         logger.info(message.getContent());
+        message.setMessageType(Message.MessageType.MESSAGE);
         sender.send(TOPIC, message);
     }
 
