@@ -60,6 +60,23 @@ public class ChatRoomDaoRedis implements ChatRoomDao{
         return chatRooms;
     }
 
+    private Set<String> getChatRoomNameMatches(String roomName) {
+        return redisTemplate.execute(new RedisCallback<Set<String>>() {
+            @Override
+            public Set<String> doInRedis(RedisConnection redisConnection) {
+                Set<String> keysTmp = new HashSet<>();
+                Cursor<byte[]> cursor = redisConnection.sScan(CHATS_BYTE, ScanOptions.scanOptions().match("*" + roomName + "*").build());
+                while(cursor.hasNext()) {
+                    StringBuffer stringBuffer = new StringBuffer(new String(cursor.next(), StandardCharsets.UTF_8));
+                    stringBuffer.deleteCharAt(0);
+                    stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+                    keysTmp.add(stringBuffer.toString());
+                }
+                return keysTmp;
+            }
+        });
+    }
+
     private Set<ChatRoom> getChatSpecificChatRoomCursor(String roomName) {
         Cursor<String> cursor = setOperations.scan(CHATROOM + roomName, ScanOptions.scanOptions().match("*").build());
         Set<ChatRoom> chatRoomList = new HashSet<>();
@@ -68,24 +85,6 @@ public class ChatRoomDaoRedis implements ChatRoomDao{
         }
         return chatRoomList;
     }
-
-    private Set<String> getChatRoomNameMatches(String roomName) {
-       return redisTemplate.execute(new RedisCallback<Set<String>>() {
-           @Override
-           public Set<String> doInRedis(RedisConnection redisConnection) {
-               Set<String> keysTmp = new HashSet<>();
-               Cursor<byte[]> cursor = redisConnection.sScan(CHATS_BYTE, ScanOptions.scanOptions().match("*" + roomName + "*").build());
-               while(cursor.hasNext()) {
-                   StringBuffer stringBuffer = new StringBuffer(new String(cursor.next(), StandardCharsets.UTF_8));
-                   stringBuffer.deleteCharAt(0);
-                   stringBuffer.deleteCharAt(stringBuffer.length() - 1);
-                   keysTmp.add(stringBuffer.toString());
-               }
-               return keysTmp;
-           }
-        });
-    }
-
 
     public Set<String> getUsers(String roomID) {
         return setOperations.members(USER_LIST + roomID);

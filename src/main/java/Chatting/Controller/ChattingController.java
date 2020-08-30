@@ -20,7 +20,7 @@ public class ChattingController {
     @Autowired Sender sender;
     Logger logger = LoggerFactory.getLogger(ChattingController.class);
 
-    private static final String TOPIC = "send";
+    private static final String TOPIC = "chat";
 
     @PostMapping("/rooms")
     @ResponseBody

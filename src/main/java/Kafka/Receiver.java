@@ -18,7 +18,7 @@ public class Receiver {
     @Autowired
     SimpMessagingTemplate template;
 
-    @KafkaListener(id = "main-listener", topics = "send")
+    @KafkaListener(id = "main-listener", topics = "chat")
     public void receive(Message message) throws Exception {
         logger.info("message='{}'",message);
         HashMap<String, String> msg = new HashMap<>();
