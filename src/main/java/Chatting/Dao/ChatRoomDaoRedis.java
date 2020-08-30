@@ -21,7 +21,7 @@ public class ChatRoomDaoRedis implements ChatRoomDao{
     @Resource(name = "redisTemplate")
     private SetOperations<String, String> setOperations;
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     static private final String CHATROOM = "CHATROOM:";
     static private final String USER_COUNT = "USERCOUNT:";
@@ -40,7 +40,7 @@ public class ChatRoomDaoRedis implements ChatRoomDao{
 
     public List<ChatRoom> getChatRoomsWithMembers(String roomName) {
         Set<String> keys = getChatRoomNameMatches(roomName);
-        LinkedList<ChatRoom> chatRooms = new LinkedList<>();
+        List<ChatRoom> chatRooms = new LinkedList<>();
         for(String key : keys)
             chatRooms.addAll(getChatSpecificChatRoom(key));
         return chatRooms;
@@ -69,9 +69,8 @@ public class ChatRoomDaoRedis implements ChatRoomDao{
         return chatRoomList;
     }
 
-    @SuppressWarnings("unchecked")
     private Set<String> getChatRoomNameMatches(String roomName) {
-       return (Set<String>) redisTemplate.execute(new RedisCallback<Set<String>>() {
+       return redisTemplate.execute(new RedisCallback<Set<String>>() {
            @Override
            public Set<String> doInRedis(RedisConnection redisConnection) {
                Set<String> keysTmp = new HashSet<>();
