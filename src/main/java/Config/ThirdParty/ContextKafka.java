@@ -35,7 +35,7 @@ public class ContextKafka {
                 .put("bootstrap.servers", "localhost:9092")
                 .put("key.serializer", IntegerSerializer.class)
                 .put("value.serializer", JsonSerializer.class)
-                .put("group.id", "test-consumer-group")
+                .put("group.id", "chatProducer")
                 .build();
     }
 
@@ -57,7 +57,7 @@ public class ContextKafka {
                 .put("bootstrap.servers", "localhost:9092")
                 .put("key.deserializer", IntegerDeserializer.class)
                 .put("value.deserializer", JsonDeserializer.class)
-                .put("group.id", "test-consumer-group")
+                .put("group.id", "chatConsumer-group1")
                 .build();
     }
 }

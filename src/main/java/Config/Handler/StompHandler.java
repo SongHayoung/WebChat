@@ -20,7 +20,7 @@ public class StompHandler implements ChannelInterceptor {
     @Autowired
     Sender sender;
 
-    private static final String TOPIC = "send";
+    private static final String TOPIC = "chat";
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
